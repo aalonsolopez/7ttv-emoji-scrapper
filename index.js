@@ -47,13 +47,16 @@ const main = async () => {
 
     const browser = await puppeteer.launch();
 
+    let i = 0;
     for (const emote of emotes) {
       const page = await browser.newPage();
       let imageUrl =  `https://cdn.7tv.app/emote/${emote.id}/4x.webp`;
       const viewSource = await page.goto(imageUrl);
       fs.writeFileSync("./emotes/" + emote.id + ".webp", await viewSource.buffer());
-      console.log(`Downloaded ${emote.id}`);
+      console.log(`${i++}. Downloaded ${emote.id}`);
     }
+
+    await browser.close();
 }
 
 main();
